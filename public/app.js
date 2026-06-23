@@ -92,14 +92,11 @@
     for (var i = 0; i < services.length; i++) {
       var service = services[i];
       var card = cardTemplate.content.cloneNode(true);
+      var article = card.querySelector(".service-card");
 
+      article.classList.add(statusClass(service.status));
       card.querySelector(".service-group").textContent = service.group || "Services";
       card.querySelector(".service-name").textContent = service.name;
-
-      var pill = card.querySelector(".status-pill");
-      pill.textContent = service.statusLabel;
-      pill.classList.add(statusClass(service.status));
-
       card.querySelector(".ping").textContent = formatPing(service.ping);
       card.querySelector(".uptime").textContent = formatUptime(service.uptime24h);
       card.querySelector(".service-message").textContent = service.message;

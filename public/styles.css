@@ -154,80 +154,65 @@ h1 {
 }
 
 .service-card {
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
+  border: 1px solid transparent;
   border-radius: 18px;
   padding: 14px;
   box-shadow: var(--shadow);
   min-height: 150px;
+  color: #fff;
 }
 
-.service-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: flex-start;
+.service-card.up {
+  background: linear-gradient(145deg, #16a34a 0%, #15803d 100%);
+  border-color: rgba(187, 247, 208, 0.35);
+}
+
+.service-card.down {
+  background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
+  border-color: rgba(254, 202, 202, 0.35);
+}
+
+.service-card.pending {
+  background: linear-gradient(145deg, #d97706 0%, #b45309 100%);
+  border-color: rgba(253, 230, 138, 0.35);
+}
+
+.service-card.maintenance {
+  background: linear-gradient(145deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: rgba(191, 219, 254, 0.35);
 }
 
 .service-group {
   margin: 0 0 4px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .service-name {
-  margin: 0;
-  font-size: 1.05rem;
+  margin: 0 0 12px;
+  font-size: 1.15rem;
   line-height: 1.2;
-}
-
-.status-pill {
-  flex-shrink: 0;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
   font-weight: 700;
-  text-transform: uppercase;
-}
-
-.status-pill.up {
-  background: rgba(34, 197, 94, 0.18);
-  color: var(--up);
-}
-
-.status-pill.down {
-  background: rgba(239, 68, 68, 0.18);
-  color: var(--down);
-}
-
-.status-pill.pending {
-  background: rgba(245, 158, 11, 0.18);
-  color: var(--pending);
-}
-
-.status-pill.maintenance {
-  background: rgba(59, 130, 246, 0.18);
-  color: var(--maintenance);
 }
 
 .service-meta {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin: 12px 0;
+  margin: 0 0 10px;
 }
 
 .meta-item {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.18);
   border-radius: 12px;
   padding: 8px 10px;
 }
 
 .meta-label {
   display: block;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.72rem;
   margin-bottom: 2px;
 }
@@ -239,7 +224,7 @@ h1 {
 
 .service-message {
   margin: 0;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 0.85rem;
   line-height: 1.35;
   word-break: break-word;
