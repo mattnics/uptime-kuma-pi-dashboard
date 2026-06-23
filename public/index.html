@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>Status Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="header">
+        <div class="header-main">
+          <p class="eyebrow">Uptime Kuma</p>
+          <h1 id="title">Loading…</h1>
+          <p id="description" class="description"></p>
+        </div>
+        <div id="overall-badge" class="overall-badge pending">Checking</div>
+      </header>
+
+      <section id="summary" class="summary" hidden>
+        <div class="summary-card">
+          <span class="summary-value" id="summary-up">0</span>
+          <span class="summary-label">Up</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-value" id="summary-down">0</span>
+          <span class="summary-label">Down</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-value" id="summary-total">0</span>
+          <span class="summary-label">Total</span>
+        </div>
+      </section>
+
+      <section id="banner" class="banner" hidden></section>
+
+      <main id="services" class="services"></main>
+
+      <footer class="footer">
+        <span id="last-updated">Connecting…</span>
+        <button id="refresh-btn" type="button" aria-label="Refresh now">Refresh</button>
+      </footer>
+    </div>
+
+    <template id="service-card-template">
+      <article class="service-card">
+        <div class="service-top">
+          <div>
+            <p class="service-group"></p>
+            <h2 class="service-name"></h2>
+          </div>
+          <span class="status-pill"></span>
+        </div>
+        <div class="service-meta">
+          <div class="meta-item">
+            <span class="meta-label">Ping</span>
+            <span class="meta-value ping"></span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">24h uptime</span>
+            <span class="meta-value uptime"></span>
+          </div>
+        </div>
+        <p class="service-message"></p>
+      </article>
+    </template>
+
+    <noscript>
+      <div class="error-state" style="margin: 24px">
+        JavaScript is required for this dashboard. Enable JavaScript in your browser.
+      </div>
+    </noscript>
+    <script src="/app.js"></script>
+  </body>
+</html>

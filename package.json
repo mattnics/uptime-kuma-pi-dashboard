@@ -1,0 +1,17 @@
+{
+  "name": "uptime-kuma-pi-dashboard",
+  "version": "1.0.0",
+  "description": "Touch-friendly status dashboard for Raspberry Pi, powered by Uptime Kuma status pages",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "dev": "node --watch --env-file=.env server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

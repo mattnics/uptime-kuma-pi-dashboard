@@ -1,0 +1,16 @@
+[Unit]
+Description=Uptime Kuma Pi Dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/uptime-kuma-pi-dashboard
+EnvironmentFile=/home/pi/uptime-kuma-pi-dashboard/.env
+ExecStart=/usr/bin/env node /home/pi/uptime-kuma-pi-dashboard/server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
