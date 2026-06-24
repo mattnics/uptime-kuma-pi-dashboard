@@ -9,6 +9,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#0b1220" />
     <title>Status Dashboard</title>
+    <style>
+      /* Inline fallback so something is visible even if styles.css fails to load */
+      body {
+        margin: 0;
+        background: #0b1220;
+        color: #edf2ff;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -70,6 +79,6 @@
         JavaScript is required for this dashboard. Enable JavaScript in your browser.
       </div>
     </noscript>
-    <script src="/app.js"></script>
+    <script src="/app.js" onerror="document.body.innerHTML='<div style=padding:24px>Failed to load app.js — check the dashboard server is running.</div>'"></script>
   </body>
 </html>

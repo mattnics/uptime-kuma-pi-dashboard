@@ -1,22 +1,13 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+# Pi kiosk launcher — waits for the dashboard server, then opens Chromium.
+# Override URL: KIOSK_URL=http://127.0.0.1:3080 ./kiosk.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-PORT="${PORT:-3080}"
-URL="http://127.0.0.1:${PORT}"
-MAX_WAIT_SECONDS="${MAX_WAIT_SECONDS:-60}"
-
-if [[ -f "${APP_DIR}/.env" ]]; then
-  # shellcheck disable=SC1091
-  source "${APP_DIR}/.env"
-  PORT="${PORT:-3080}"
-  URL="http://127.0.0.1:${PORT}"
-fi
+KIOSK_URL="${KIOSK_URL:-http://127.0.0.1:3080}"
+MAX_WAIT_SECONDS="${MAX_WAIT_SECONDS:-90}"
 
 find_chromium() {
-  for candidate in chromium chromium-browser google-chrome google-chrome-stable; do
-    if command -v "${candidate}" >/dev/null 2>&1; then
+  for candidate in /usr/bin/chromium-browser /usr/bin/chromium; do
+    if [[ -x "${candidate}" ]]; then
       echo "${candidate}"
       return 0
     fi
@@ -24,40 +15,46 @@ find_chromium() {
   return 1
 }
 
-wait_for_server() {
+wait_for_dashboard() {
   local elapsed=0
-  echo "Waiting for dashboard at ${URL} ..."
+  echo "Waiting for dashboard at ${KIOSK_URL} ..."
   while (( elapsed < MAX_WAIT_SECONDS )); do
-    if curl -fsS "${URL}/health" >/dev/null 2>&1; then
+    if curl -fsS "${KIOSK_URL}/health" >/dev/null 2>&1; then
       echo "Dashboard is ready."
       return 0
     fi
     sleep 1
     elapsed=$((elapsed + 1))
   done
-  echo "Dashboard did not start within ${MAX_WAIT_SECONDS}s." >&2
-  echo "Start it with: cd ${APP_DIR} && npm start" >&2
+  echo "Dashboard did not respond within ${MAX_WAIT_SECONDS}s." >&2
   return 1
 }
 
 CHROMIUM="$(find_chromium || true)"
 if [[ -z "${CHROMIUM}" ]]; then
-  echo "Chromium not found. Install it with: sudo apt install chromium-browser" >&2
+  echo "Chromium not found." >&2
   exit 1
 fi
 
-wait_for_server
+# Bookworm: network + systemd may need more than a fixed sleep.
+wait_for_dashboard || true
 
+echo "Hiding the mouse cursor..."
 if command -v unclutter >/dev/null 2>&1; then
-  unclutter -idle 3 -root >/dev/null 2>&1 &
+  unclutter -idle 0.1 -root &
 fi
 
+echo "Starting Chromium..."
 exec "${CHROMIUM}" \
   --kiosk \
+  --app="${KIOSK_URL}" \
   --noerrdialogs \
   --disable-infobars \
   --disable-session-crashed-bubble \
   --disable-translate \
+  --no-first-run \
+  --no-default-browser-check \
+  --disable-dev-shm-usage \
   --check-for-update-interval=31536000 \
-  --disable-features=TranslateUI \
-  --app="${URL}"
+  --disable-gpu \
+  --disable-gpu-compositing
